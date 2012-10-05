@@ -20,7 +20,7 @@ func (m *Message) AddRecipient(ids ...string) {
 	m.RegistrationIDs = append(m.RegistrationIDs, ids...)
 }
 
-func (m *Message) AddPayload(key string, value interface{}) {
+func (m *Message) SetPayload(key string, value interface{}) {
 	if m.Data == nil {
 		m.Data = make(map[string]interface{})
 	}

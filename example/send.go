@@ -10,7 +10,7 @@ func main() {
 
 	load := NewMessage("your device id")
 	load.AddRecipient("abc")
-	load.AddPayload("data", 1)
+	load.SetPayload("data", 1)
 	load.CollapseKey = "demo"
 	load.DelayWhileIdle = true
 	load.TimeToLive = 10
