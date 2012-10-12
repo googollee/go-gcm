@@ -6,16 +6,16 @@ import (
 )
 
 func main() {
-	c2dm := New("your Google APIs key")
+	client := gcm.New("your Google APIs key")
 
-	load := NewMessage("your device id")
+	load := gcm.NewMessage("your device id")
 	load.AddRecipient("abc")
 	load.SetPayload("data", "1")
 	load.CollapseKey = "demo"
 	load.DelayWhileIdle = true
 	load.TimeToLive = 10
 
-	resp, err := c2dm.Send(load)
+	resp, err := client.Send(load)
 
 	fmt.Printf("id: %+v\n", resp)
 	fmt.Println("err:", err)
