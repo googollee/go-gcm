@@ -2,17 +2,17 @@ package gcm
 
 // The field meaning explained at [GCM Architectural Overview](http://developer.android.com/guide/google/gcm/gcm.html#send-msg)
 type Message struct {
-	RegistrationIDs []string               `json:"registration_ids"`
-	CollapseKey     string                 `json:"collapse_key,omitempty"`
-	DelayWhileIdle  bool                   `json:"delay_while_idle,omitempty"`
-	Data            map[string]interface{} `json:"data,omitempty"`
-	TimeToLive      int                    `json:"time_to_live,omitempty"`
+	RegistrationIDs []string          `json:"registration_ids"`
+	CollapseKey     string            `json:"collapse_key,omitempty"`
+	DelayWhileIdle  bool              `json:"delay_while_idle,omitempty"`
+	Data            map[string]string `json:"data,omitempty"`
+	TimeToLive      int               `json:"time_to_live,omitempty"`
 }
 
 func NewMessage(ids ...string) *Message {
 	return &Message{
 		RegistrationIDs: ids,
-		Data:            make(map[string]interface{}),
+		Data:            make(map[string]string),
 	}
 }
 
@@ -20,9 +20,9 @@ func (m *Message) AddRecipient(ids ...string) {
 	m.RegistrationIDs = append(m.RegistrationIDs, ids...)
 }
 
-func (m *Message) SetPayload(key string, value interface{}) {
+func (m *Message) SetPayload(key string, value string) {
 	if m.Data == nil {
-		m.Data = make(map[string]interface{})
+		m.Data = make(map[string]string)
 	}
 	m.Data[key] = value
 }
