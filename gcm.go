@@ -30,7 +30,6 @@ func (c *Client) Send(message *Message) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(j))
 	request, err := http.NewRequest("POST", GCMSendApi, bytes.NewBuffer(j))
 	if err != nil {
 		return nil, err
