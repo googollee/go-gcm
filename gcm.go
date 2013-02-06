@@ -41,6 +41,7 @@ func (c *Client) Send(message *Message) (*Response, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer resp.Body.Close()
 
 	return responseReply(resp)
 }
