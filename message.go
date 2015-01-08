@@ -7,6 +7,7 @@ type Message struct {
 	DelayWhileIdle  bool              `json:"delay_while_idle,omitempty"`
 	Data            map[string]string `json:"data,omitempty"`
 	TimeToLive      int               `json:"time_to_live,omitempty"`
+	DryRun					bool							`json:"dry_run,omitempty"`
 }
 
 func NewMessage(ids ...string) *Message {
@@ -37,38 +38,39 @@ type Response struct {
 		MessageID      string `json:"message_id"`
 		RegistrationID string `json:"registration_id"`
 		Error          string `json:"error"`
-	} `json:"results"`
-}
-
-// Return the indexes of succeed sent registration ids
-func (r *Response) SuccessIndexes() []int {
-	ret := make([]int, 0, r.Success)
-	for i, result := range r.Results {
-		if result.Error == "" {
-			ret = append(ret, i)
-		}
+		} `json:"results"`
 	}
-	return ret
-}
 
-// Return the indexes of failed sent registration ids
-func (r *Response) ErrorIndexes() []int {
-	ret := make([]int, 0, r.Failure)
-	for i, result := range r.Results {
-		if result.Error != "" {
-			ret = append(ret, i)
+	// Return the indexes of succeed sent registration ids
+	func (r *Response) SuccessIndexes() []int {
+		ret := make([]int, 0, r.Success)
+		for i, result := range r.Results {
+			if result.Error == "" {
+				ret = append(ret, i)
+			}
 		}
+		return ret
 	}
-	return ret
-}
 
-// Return the indexes of registration ids which need update
-func (r *Response) RefreshIndexes() []int {
-	ret := make([]int, 0, r.CanonicalIDs)
-	for i, result := range r.Results {
-		if result.RegistrationID != "" {
-			ret = append(ret, i)
+	// Return the indexes of failed sent registration ids
+	func (r *Response) ErrorIndexes() []int {
+		ret := make([]int, 0, r.Failure)
+		for i, result := range r.Results {
+			if result.Error != "" {
+				ret = append(ret, i)
+			}
 		}
+		return ret
 	}
-	return ret
-}
+
+	// Return the indexes of registration ids which need update
+	func (r *Response) RefreshIndexes() []int {
+		ret := make([]int, 0, r.CanonicalIDs)
+		for i, result := range r.Results {
+			if result.RegistrationID != "" {
+				ret = append(ret, i)
+			}
+		}
+		return ret
+	}
+	
