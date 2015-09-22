@@ -25,6 +25,13 @@ func New(key string) *Client {
 	}
 }
 
+func NewOwnClient(key string, httpClient *http.Client) *Client {
+	return &Client{
+		key:  key,
+		http: httpClient,
+	}
+}
+
 func (c *Client) Send(message *Message) (*Response, error) {
 	j, err := json.Marshal(message)
 	if err != nil {
